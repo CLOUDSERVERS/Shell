@@ -54,11 +54,11 @@ install_prepare_libev_obfs(){
         [ -z "${is_enabled_failover}" ] && is_enabled_failover="N"
         case "${is_enabled_failover:0:1}" in
             y|Y)
-                is_enabled_failover='true'
+                is_enabled_failover="true"
                 break
                 ;;
             n|N)
-                is_enabled_failover='false'
+                is_enabled_failover="false"
                 break
                 ;;
             *)
