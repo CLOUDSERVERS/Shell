@@ -630,7 +630,7 @@ config_ss(){
         kcptun_config_standalone
     elif [[ ${plugin_num} == "3" ]]; then
         if [[ ${libev_obfs} == "1" ]]; then
-            if is_enabled_failover; then
+            if ${is_enabled_failover}; then
                 shadowsocksport=80
                 ss_obfs_http_failover_config
                 obfs_http_failover_mode_caddy_config
@@ -638,7 +638,7 @@ config_ss(){
                 ss_obfs_http_config
             fi
         elif [[ ${libev_obfs} == "2" ]]; then 
-            if is_enabled_failover; then
+            if ${is_enabled_failover}; then
                 shadowsocksport=443
                 ss_obfs_tls_failover_config
                 obfs_tls_failover_mode_caddy_config
@@ -725,7 +725,7 @@ install_completed(){
         
         ss_kcptun_show
     elif [[ ${plugin_num} == "3" ]]; then
-        if is_enabled_failover; then
+        if ${is_enabled_failover}; then
             # start caddy
             /etc/init.d/caddy start > /dev/null 2>&1
         fi

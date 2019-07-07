@@ -70,7 +70,7 @@ install_prepare_libev_obfs(){
         esac
 	done
     
-    if is_enabled_failover; then
+    if ${is_enabled_failover}; then
         if [[ ${libev_obfs} == "1" ]]; then
             echo
             read -e -p "请输入用于caddy搭建本地服务器所需的域名:" domain
