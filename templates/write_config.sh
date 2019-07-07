@@ -223,9 +223,7 @@ obfs_http_failover_mode_caddy_config(){
 	${domain}:8080 {
 		gzip
 		timeouts none
-		proxy / ${obfs_site} {
-			transparent
-		}
+		proxy / ${obfs_site}
 	}
 	EOF
 }
@@ -254,9 +252,7 @@ obfs_tls_failover_mode_caddy_config(){
 		gzip
 		tls ${email}
 		timeouts none
-		proxy / ${obfs_site} {
-			transparent
-		}
+		proxy / ${obfs_site}
 	}
 	EOF
 }
