@@ -157,7 +157,8 @@ kcptun_config_standalone(){
 		"rcvwnd": ${rcvwnd},
 		"datashard": ${datashard},
 		"parityshard": ${parityshard},
-		"dscp": ${DSCP}
+		"dscp": ${DSCP},
+        "nocomp": ${nocomp}
 	}
 	EOF
 }
@@ -195,6 +196,67 @@ ss_obfs_tls_config(){
 		"mode":"tcp_and_udp",
 		"plugin":"obfs-server",
 		"plugin_opts":"obfs=${shadowsocklibev_obfs}"
+	}
+	EOF
+}
+
+ss_obfs_http_failover_config(){
+	cat > ${SHADOWSOCKS_LIBEV_CONFIG}<<-EOF
+	{
+		"server":${server_value},
+		"server_port":${shadowsocksport},
+		"password":"${shadowsockspwd}",
+		"timeout":300,
+		"user":"nobody",
+		"method":"${shadowsockscipher}",
+		"fast_open":${fast_open},
+		"nameserver":"8.8.8.8",
+		"mode":"tcp_and_udp",
+		"plugin":"obfs-server",
+		"plugin_opts":"obfs=${shadowsocklibev_obfs};failover=127.0.0.1:8080"
+	}
+	EOF
+}
+
+obfs_http_failover_mode_caddy_config(){
+	cat > ${CADDY_CONF_FILE}<<-EOF
+	${domain}:8080 {
+		gzip
+		timeouts none
+		proxy / ${obfs_site} {
+			transparent
+		}
+	}
+	EOF
+}
+
+ss_obfs_tls_failover_config(){
+	cat > ${SHADOWSOCKS_LIBEV_CONFIG}<<-EOF
+	{
+		"server":${server_value},
+		"server_port":${shadowsocksport},
+		"password":"${shadowsockspwd}",
+		"timeout":300,
+		"user":"nobody",
+		"method":"${shadowsockscipher}",
+		"fast_open":${fast_open},
+		"nameserver":"8.8.8.8",
+		"mode":"tcp_and_udp",
+		"plugin":"obfs-server",
+		"plugin_opts":"obfs=${shadowsocklibev_obfs};failover=127.0.0.1:8443"
+	}
+	EOF
+}
+
+obfs_tls_failover_mode_caddy_config(){
+	cat > ${CADDY_CONF_FILE}<<-EOF
+	${domain}:8443 {
+		gzip
+		tls ${email}
+		timeouts none
+		proxy / ${obfs_site} {
+			transparent
+		}
 	}
 	EOF
 }

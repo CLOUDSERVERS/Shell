@@ -28,5 +28,9 @@ install_simple_obfs(){
     fi
     [ -f /usr/local/bin/obfs-server ] && ln -s /usr/local/bin/obfs-server /usr/bin
     echo -e "${Info} simple-obfs-${simple_obfs_ver} 安装成功."
-
+    
+    
+    if is_enabled_failover; then
+        wget -qO- ${CADDY_INSTALL_SCRIPT_URL} | bash -s install
+    fi
 }
